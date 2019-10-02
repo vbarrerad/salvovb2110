@@ -11,7 +11,7 @@ public class GamePlayer {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
 
     private Long id;
-    private Date creationDate;
+    private Date joinDate;
 
     @ManyToOne
     @JoinColumn (name = "game_id")
@@ -24,8 +24,8 @@ public class GamePlayer {
 
     public GamePlayer (){}
 
-    public GamePlayer(Date creationDate, Game game, Player player) {
-        this.creationDate = creationDate;
+    public GamePlayer(Date joinDate, Game game, Player player) {
+        this.joinDate = joinDate;
         this.game = game;
         this.player = player;
     }
@@ -39,12 +39,12 @@ public class GamePlayer {
         this.id = id;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getJoinDate() {
+        return joinDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 
     public Game getGame() {
@@ -69,7 +69,7 @@ public class GamePlayer {
     public String toString() {
         return "GamePlayer{" +
                 "id=" + id +
-                ", creationDate=" + creationDate +
+                ", joinDate=" + joinDate +
                 ", game=" + game +
                 ", player=" + player +
                 '}';

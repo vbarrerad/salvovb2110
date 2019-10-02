@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 
 @Entity
@@ -17,6 +18,8 @@ public class Player {
     private String firstName;
     private String lastName;
     private String userName;
+
+
 
     public Player () {}
 
@@ -57,6 +60,8 @@ public class Player {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+
 
     @Override
     public String toString() {

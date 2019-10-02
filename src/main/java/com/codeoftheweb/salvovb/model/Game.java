@@ -10,19 +10,21 @@ import java.util.Date;
 
 @Entity
 public class Game {
+
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @NotEmpty
-    private Date creationDate;
+    private Date creationDate = new Date();
 
 
-public Game () {
-}
+    public Game () {
+    }
 
     public Game(Long id, @NotNull @NotEmpty Date creationDate) {
-
+        this.id = id;
         this.creationDate = creationDate;
     }
 
