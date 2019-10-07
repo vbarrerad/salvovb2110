@@ -21,31 +21,26 @@ public class SalvoRestController {
     private GameService gameService;
 
     @GetMapping ("/games")
-    public List<Game> findAll() {
+    /*public List<Game> findAll() {
         return gameService.findAll();
     }
 
     @GetMapping ("/ids")
     public List <Long> findAllIds (){
-     return gameService.findAll().stream().map(game -> game.getId()).collect(Collectors.toList());
-
+        return gameService.findAll().stream().map(game -> game.getId()).collect(Collectors.toList());
     }
 
-    @GetMapping ("/dto")
-    private Map <String,Object> makeGameDto (Game game){
-        Map <String,Object> dto = new LinkedHashMap<String,Object>();
+    @GetMapping ("/mapa")*/
+    private List <Map<String,Object>> mapa (){
+        return gameService.findAll().stream().map(this::mapFromGameToDTO).collect(Collectors.toList());
+    }
+
+
+    private Map <String, Object> mapFromGameToDTO (Game game) {
+        Map <String,Object> dto = new LinkedHashMap<>();
         dto.put("id", game.getId());
         dto.put("creation", game.getCreationDate());
+        dto.put("gamePlayer", game.getGamePlayers());
         return dto;
     }
-
-    @GetMapping ("/mapa")
-    private Map <String, Object> mapa (Game game) {
-        Map <String,Object> dto = new LinkedHashMap<String,Object>();
-        dto.put("id", game.getId());
-        dto.put("creation", game.getCreationDate());
-
-        return dto;
-    }
-
 }

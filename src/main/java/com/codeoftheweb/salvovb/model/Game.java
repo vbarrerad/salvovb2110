@@ -1,12 +1,10 @@
 package com.codeoftheweb.salvovb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Game {
@@ -20,11 +18,14 @@ public class Game {
     private Date creationDate = new Date();
 
 
+    @OneToMany (mappedBy = "game", fetch = FetchType.EAGER)
+    private Set <GamePlayer> gamePlayers;
+
+
     public Game () {
     }
 
     public Game(Long id, @NotNull @NotEmpty Date creationDate) {
-        this.id = id;
         this.creationDate = creationDate;
     }
 
@@ -44,11 +45,19 @@ public class Game {
         this.creationDate = creationDate;
     }
 
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
+
     @Override
     public String toString() {
         return "Game{" +
                 "id=" + id +
                 ", creationDate=" + creationDate +
+                ", gamePlayers=" + gamePlayers +
                 '}';
     }
+
+
 }
