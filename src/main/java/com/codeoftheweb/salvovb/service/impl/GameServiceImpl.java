@@ -17,4 +17,5 @@ private GameRepository gameRepository;
 public List <Game> findAll(){
     return gameRepository.findAll();
     }
+
 }

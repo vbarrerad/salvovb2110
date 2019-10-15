@@ -1,24 +1,23 @@
 package com.codeoftheweb.salvovb.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Player {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
     private String firstName;
     private String lastName;
     private String userName;
-
+    //codigo rodrigo private int xp
+    @OneToMany (mappedBy = "player", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<GamePlayer> gamePlayers = new HashSet<>();
 
 
     public Player () {}
@@ -33,9 +32,7 @@ public class Player {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+
 
     public String getFirstName() {
         return firstName;
@@ -62,6 +59,26 @@ public class Player {
     }
 
 
+    public Set<GamePlayer> getGamePlayers() {
+        return gamePlayers;
+    }
+
+    public void addGamePlayer (GamePlayer gamePlayer) {
+        this.gamePlayers.add(gamePlayer);
+        gamePlayer.setPlayer(this);
+    }
+    //codigo rodrigo dto para para administrar la info de Player
+    @JsonIgnore
+    public List<Game> getGames (){
+        return this.gamePlayers.stream().map(x ->x.getGame()).collect(Collectors.toList());
+    }
+    //dto para para administrar la info de Player
+    public Map<String, Object> playerDTO(){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", this.getId());
+        dto.put("username", this.getUserName());
+        return dto;
+    }
 
     @Override
     public String toString() {

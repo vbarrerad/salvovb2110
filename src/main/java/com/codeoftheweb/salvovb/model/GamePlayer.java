@@ -1,7 +1,7 @@
 package com.codeoftheweb.salvovb.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 
@@ -9,17 +9,19 @@ public class GamePlayer {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-
     private Long id;
     private Date joinDate;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "game_id")
     private Game game;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn (name = "player_id")
     private Player player;
+
+    @OneToMany(mappedBy="gamePlayer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Ship> ships= new HashSet<>();
 
 
     public GamePlayer (){}
@@ -63,7 +65,15 @@ public class GamePlayer {
         this.player = player;
     }
 
+    public Set<Ship> getShips() {
+        return ships;
+    }
 
+    public void addShip (Ship ship) {
+        this.ships.add(ship);
+        ship.setGamePlayer(this);
+    }
+//codigo Rodrigo tiene aca DTO para para administrar la info de GamePlayer, ponerlo en GamePlayerRestController
 
     @Override
     public String toString() {
@@ -72,6 +82,8 @@ public class GamePlayer {
                 ", joinDate=" + joinDate +
                 ", game=" + game +
                 ", player=" + player +
+                ", ships=" + ships +
                 '}';
     }
+
 }
