@@ -23,23 +23,18 @@ public class GamePlayer {
     @OneToMany(mappedBy="gamePlayer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Ship> ships= new HashSet<>();
 
+    @OneToMany(mappedBy="gamePlayer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Salvo> salvoes= new HashSet<>();
 
-    public GamePlayer (){}
-
-    public GamePlayer(Date joinDate, Game game, Player player) {
-        this.joinDate = joinDate;
-        this.game = game;
-        this.player = player;
-    }
 
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public Date getJoinDate() {
         return joinDate;
@@ -73,7 +68,52 @@ public class GamePlayer {
         this.ships.add(ship);
         ship.setGamePlayer(this);
     }
-//codigo Rodrigo tiene aca DTO para para administrar la info de GamePlayer, ponerlo en GamePlayerRestController
+
+    public Set<Salvo> getSalvoes() {
+        return salvoes;
+    }
+
+    public void addSalvo (Salvo salvo) {
+        this.salvoes.add(salvo);
+        salvo.setGamePlayer(this);
+    }
+
+    /* public GamePlayer (){}
+
+    public GamePlayer(Date joinDate, Game game, Player player) {
+        this.joinDate = joinDate;
+        this.game = game;
+        this.player = player;
+    }*/
+
+    public GamePlayer() {
+        this.joinDate = new Date();
+    }
+
+    public GamePlayer(Date joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public GamePlayer(Game game, Player player) {
+        this.game = game;
+        this.player = player;
+        this.joinDate = new Date();
+    }
+
+    public GamePlayer(Game game, Player player, Date joinDate) {
+        this.game = game;
+        this.player = player;
+        this.joinDate = joinDate;
+    }
+
+
+    //DTO (data transfer object) para administrar la info de GamePlayer
+    public Map<String, Object> gamePlayerDTO(){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", this.getId());
+        dto.put("player", this.getPlayer().playerDTO());
+        return dto;
+    }
 
     @Override
     public String toString() {

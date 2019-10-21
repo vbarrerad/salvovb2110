@@ -1,7 +1,9 @@
 package com.codeoftheweb.salvovb.model;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Ship {
@@ -30,7 +32,7 @@ public class Ship {
     }
 
     public GamePlayer getGamePlayer() {
-        return gamePlayer;
+        return this.gamePlayer;
     }
 
     public void setGamePlayer(GamePlayer gamePlayer) {
@@ -38,7 +40,7 @@ public class Ship {
     }
 
     public List<String> getLocations() {
-        return locations;
+        return this.locations;
     }
 
     public void setLocations(List<String> locations) {
@@ -55,7 +57,12 @@ public class Ship {
         this.locations = locations;
     }
 
-    //ship dto
+    public Map<String, Object> shipDTO(){
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("type", this.getType());
+        dto.put("locations", this.getLocations());
+        return dto;
+    }
 
     @Override
     public String toString() {
