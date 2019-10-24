@@ -38,6 +38,9 @@ public class Game {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 
     public Date getCreationDate() {

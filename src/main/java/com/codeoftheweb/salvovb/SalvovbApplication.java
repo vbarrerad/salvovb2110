@@ -50,6 +50,13 @@ public class SalvovbApplication {
 			gp2.addShip(new Ship("destoyer", Arrays.asList("H1","I1","J1")));
 			gp2.addShip(new Ship("submarine", Arrays.asList("D4","D5","D6","D7")));
 
+			gp1.addSalvo(new Salvo(1,Arrays.asList("B5","C6")));
+			gp1.addSalvo(new Salvo(2,Arrays.asList("J1","D9")));
+
+			gp2.addSalvo(new Salvo(1,Arrays.asList("A1","F6")));
+			gp2.addSalvo(new Salvo(2,Arrays.asList("A2","A3")));
+
+
 			gamePlayerRepository.save(gp1);
 			gamePlayerRepository.save(gp2);
 

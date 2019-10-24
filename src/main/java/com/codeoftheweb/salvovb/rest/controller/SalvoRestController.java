@@ -59,7 +59,7 @@ public class SalvoRestController {
         return dto;
     }
 
-    @RequestMapping("/game_view/{gamePlayerId}")
+   /* @RequestMapping("/game_view/{gamePlayerId}")
     public Map<String,Object> getGameView(@PathVariable long gamePlayerId){
         return this.gameViewDTO(gamePlayerRepository.findById(gamePlayerId).orElse(null));
     }
@@ -81,6 +81,34 @@ public class SalvoRestController {
 
         return dto;
     }
+    }
+*/
 
+
+
+    @RequestMapping("/game_view/{gamePlayerId}")
+    public Map<String,Object> getGameView(@PathVariable long gamePlayerId){
+        return this.gameViewDTO(gamePlayerRepository.findById(gamePlayerId).orElse(null));
+    }
+
+    private Map<String,Object> gameViewDTO(GamePlayer gamePlayer){
+        Map<String,Object> dto = new LinkedHashMap<>();
+
+        if(gamePlayer != null){
+            dto.put("id", gamePlayer.getGame().getId());
+            dto.put("creationDate", gamePlayer.getGame().getCreationDate());
+            dto.put("gamePlayer", gamePlayer.getGame().getGamePlayers().stream().map(GamePlayer::gamePlayerDTO));
+            dto.put("ships", gamePlayer.getShips().stream().map(Ship::shipDTO));
+            dto.put("salvoes", gamePlayer.getGame().getGamePlayers()
+                    .stream().flatMap(gp -> gp.getSalvoes()
+                            .stream().map(salvo -> salvo.salvoDTO()))
+            );
+        }else{
+            dto.put("error", "no such game");
+        }
+
+        return dto;
+
+    }
 
 }

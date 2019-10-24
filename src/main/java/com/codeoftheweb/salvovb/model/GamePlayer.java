@@ -32,9 +32,9 @@ public class GamePlayer {
         return id;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getJoinDate() {
         return joinDate;
@@ -78,17 +78,9 @@ public class GamePlayer {
         salvo.setGamePlayer(this);
     }
 
-    /* public GamePlayer (){}
 
-    public GamePlayer(Date joinDate, Game game, Player player) {
-        this.joinDate = joinDate;
-        this.game = game;
-        this.player = player;
-    }*/
+    public GamePlayer (){}
 
-    public GamePlayer() {
-        this.joinDate = new Date();
-    }
 
     public GamePlayer(Date joinDate) {
         this.joinDate = joinDate;
@@ -98,12 +90,6 @@ public class GamePlayer {
         this.game = game;
         this.player = player;
         this.joinDate = new Date();
-    }
-
-    public GamePlayer(Game game, Player player, Date joinDate) {
-        this.game = game;
-        this.player = player;
-        this.joinDate = joinDate;
     }
 
 
