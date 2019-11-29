@@ -15,6 +15,7 @@ public class Player {
     private String firstName;
     private String lastName;
     private String userName;
+    private String password;
     //codigo rodrigo private int xp
     @OneToMany (mappedBy = "player", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<GamePlayer> gamePlayers = new HashSet<>();
@@ -24,10 +25,12 @@ public class Player {
 
     public Player () {}
 
-    public Player(String firstName, String lastName, String userName) {
+    public Player(String firstName, String lastName, String userName, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
+        this.password = password;
+
     }
 
     public Long getId() {
@@ -60,6 +63,13 @@ public class Player {
         this.userName = userName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;

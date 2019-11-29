@@ -1,17 +1,16 @@
 package com.codeoftheweb.salvovb.rest.controller;
 
 
-import com.codeoftheweb.salvovb.model.Game;
-import com.codeoftheweb.salvovb.model.GamePlayer;
-import com.codeoftheweb.salvovb.model.Salvo;
-import com.codeoftheweb.salvovb.model.Ship;
+import com.codeoftheweb.salvovb.model.*;
 import com.codeoftheweb.salvovb.repository.GamePlayerRepository;
+import com.codeoftheweb.salvovb.repository.GameRepository;
+import com.codeoftheweb.salvovb.repository.PlayerRepository;
 import com.codeoftheweb.salvovb.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +19,9 @@ import java.util.stream.Collectors;
 @RequestMapping ("/api")
 
 public class SalvoRestController {
+
+
+
     @Autowired
     private GameService gameService;
 
@@ -27,6 +29,30 @@ public class SalvoRestController {
     private GamePlayerRepository gamePlayerRepository;
     //reemplazarlo por gamePlayerService
 
+    @Autowired
+    PlayerRepository playerRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Object> register(
+            @RequestParam String firstName, @RequestParam String lastName,
+            @RequestParam String userName, @RequestParam String password) {
+
+        if (firstName.isEmpty() || lastName.isEmpty() || userName.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        }
+
+        if (playerRepository.findByUserName(userName) !=  null) {
+            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        }
+
+        playerRepository.save(new Player(firstName, lastName, userName, passwordEncoder.encode(password)));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @GetMapping ("/ids")
     public List <Long> findAllIds (){
